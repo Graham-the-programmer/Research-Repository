@@ -1,6 +1,6 @@
 import pygame
 import os
-
+pygame.font.init()
 
 WIDTH, HEIGHT = 900, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -9,9 +9,11 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
+PURPLE = (128, 0, 128)
 
 BORDER = pygame.Rect(WIDTH//2 - 5, 0, 10, HEIGHT)
 
+HEALTH_FONT = pygame.font.SysFont('comicsans', 40)
 FPS = 60 
 VEL = 5
 SPACESHIP_WIDTH, SPACESHIP_HEIGHT = 55, 40
@@ -28,11 +30,16 @@ YELLOW_SPACESHIP =pygame.transform.rotate(pygame.transform.scale(YELLOW_SPACESHI
 RED_SPACESHIP_IMAGE = pygame.image.load(os.path.join('Assets', 'spaceship_red.png'))
 RED_SPACESHIP = pygame.transform.rotate(pygame.transform.scale(RED_SPACESHIP_IMAGE, (SPACESHIP_WIDTH, SPACESHIP_HEIGHT)), 270)
 
+SPACE = pygame.transform.scale(pygame.image.load(os.path.join("Assets", 'space.png')), (WIDTH, HEIGHT))
 
-def draw_window(red, yellow, red_bullets, yellow_bullets):
-     WIN.fill((WHITE))
+def draw_window(red, yellow, red_bullets, yellow_bullets, red_health, yellow_health):
+     WIN.blit(SPACE, (0, 0))
      pygame.draw.rect(WIN, BLACK, BORDER)
-     WIN.blit(YELLOW_SPACESHIP, (yellow.x, yellow.y))
+     red_health_text = HEALTH_FONT.render('Health: ' + str(red_health), 1, WHITE)
+     yellow_health_text = HEALTH_FONT.render('Health: ' + str(yellow_health), 1, WHITE)
+     WIN.blit(red_health_text, (WIDTH - red_health_text.get_width() - 10, 10 ))
+     WIN.blit(yellow_health_text, (10, 10))
+     WIN.blit(YELLOW_SPACESHIP, (yellow.x, yellow.y)) 
      WIN.blit(RED_SPACESHIP, (red.x, red.y))
 
      for bullet in red_bullets:
@@ -40,7 +47,7 @@ def draw_window(red, yellow, red_bullets, yellow_bullets):
 
     
      for bullet in yellow_bullets:
-        pygame.draw.rect(WIN, YELLOW, bullet) 
+        pygame.draw.rect(WIN, PURPLE, bullet) 
 
      pygame.display.update()
 
@@ -87,6 +94,9 @@ def main():
     red_bullets = []
     yellow_bullets = []
 
+    red_health = 10
+    yellow_health = 10
+
 
     clock = pygame.time.Clock()
     #this code handles being able to exit the game window without using a force quit
@@ -115,7 +125,7 @@ def main():
 
 
 
-        draw_window(red, yellow, red_bullets, yellow_bullets)
+        draw_window(red, yellow, red_bullets, yellow_bullets, red_health, yellow_health)
 
     pygame.quit()
 
