@@ -14,6 +14,7 @@ PURPLE = (128, 0, 128)
 BORDER = pygame.Rect(WIDTH//2 - 5, 0, 10, HEIGHT)
 
 HEALTH_FONT = pygame.font.SysFont('comicsans', 40)
+WINNER_FONT = pygame.font.SysFont('comicsans', 80)
 FPS = 60 
 VEL = 5
 SPACESHIP_WIDTH, SPACESHIP_HEIGHT = 55, 40
@@ -85,7 +86,11 @@ def  handle_bullets(yellow_bullets, red_bullets, yellow, red):
             pygame.event.post(pygame.event.Event(YELLOW_HIT))
             red_bullets.remove(bullet)
 
-
+def draw_winner(text):
+    draw_text = WINNER_FONT.render(text, 1, WHITE)
+    WIN.blit(draw_text, (WIDTH//2 - draw_text.get_width()//2, HEIGHT//2 - draw_text.get_height()//2))
+    pygame.display.update()
+    pygame.time.delay(5000)
 
 def main():
     red = pygame.Rect(700, 300, SPACESHIP_WIDTH, SPACESHIP_HEIGHT)
@@ -132,7 +137,9 @@ def main():
          winnet_text = "red wins" 
 
         if winner_text != '':
-            pass
+            draw_winner(winner_text)
+            break
+            
        
        
         keys_pressed = pygame.key.get_pressed()
