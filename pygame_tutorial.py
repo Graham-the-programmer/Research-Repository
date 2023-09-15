@@ -18,7 +18,7 @@ FPS = 60
 VEL = 5
 SPACESHIP_WIDTH, SPACESHIP_HEIGHT = 55, 40
 BULLET_VEL = 7
-MAX_BULLETS = 100
+MAX_BULLETS = 1000
 
 YELLOW_HIT = pygame.USEREVENT + 1
 RED_HIT = pygame.USEREVENT + 2
@@ -47,7 +47,7 @@ def draw_window(red, yellow, red_bullets, yellow_bullets, red_health, yellow_hea
 
     
      for bullet in yellow_bullets:
-        pygame.draw.rect(WIN, PURPLE, bullet) 
+        pygame.draw.rect(WIN, YELLOW, bullet) 
 
      pygame.display.update()
 
@@ -115,6 +115,24 @@ def main():
                 if event.key == pygame.K_RCTRL and len(red_bullets) < MAX_BULLETS:
                     bullet = pygame.Rect(red.x, red.y + red.height//2 - 2, 10, 5)
                     red_bullets.append(bullet)   
+
+            if event.type == RED_HIT:
+                red_health -= 1
+            
+
+            if event.type == YELLOW_HIT:
+                yellow_health -= 1
+            
+
+        winner_text = ''
+        if red_health <= 0:
+         winner_text = "yellow wins"
+
+        if yellow_health <= 0:
+         winnet_text = "red wins" 
+
+        if winner_text != '':
+            pass
        
        
         keys_pressed = pygame.key.get_pressed()
